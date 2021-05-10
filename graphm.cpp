@@ -9,7 +9,7 @@
 //             max nodes = 100 / graph
 // --------------------------------------------------------------------------------------------------------------------
 
-#include "GraphM.h"
+#include "graphm.h"
 
 #include <iostream>
 #include <climits>
@@ -39,17 +39,29 @@ GraphM::GraphM() : size(0){
 // Preconditions: None
 // Postconditions: None
 void GraphM::buildGraph(ifstream& input) {
-    input >> size;
-    for (int i = 0; i < size; i++) {
-        string name;
-        input >> name;
-        NodeData tempND = new NodeData(name);
-        data[i] = tempND;
-    }
+    while (input >> size) {
+        for (int i = 0; i <= size; i++) {
+            data[i].setData(input);
+            cout << data[i] <<endl;
+        }
 
-    string line;
+        int from, to, weight;
+        input >> from >> to >> weight;
+        while (from != 0) {
+            C[from][to] = weight;
+
+            cout << from << " from, ";
+            cout << to << " to, ";
+            cout << weight << " weight" <<endl;
+
+            input >> from >> to >> weight;
+        }
+    }
 }
 
 int main() {
+    ifstream infile1("data31.txt");
+    GraphM G;
+    G.buildGraph(infile1);
     return 0;
 }
