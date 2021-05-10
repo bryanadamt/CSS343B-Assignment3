@@ -42,21 +42,54 @@ void GraphM::buildGraph(ifstream& input) {
     while (input >> size) {
         for (int i = 0; i <= size; i++) {
             data[i].setData(input);
-            cout << data[i] <<endl;
+            // cout << data[i] <<endl;
         }
 
         int from, to, weight;
         input >> from >> to >> weight;
         while (from != 0) {
             C[from][to] = weight;
-
-            cout << from << " from, ";
-            cout << to << " to, ";
-            cout << weight << " weight" <<endl;
+            // cout << from << " from, ";
+            // cout << to << " to, ";
+            // cout << weight << " weight" <<endl;
 
             input >> from >> to >> weight;
         }
     }
+}
+
+//---------------------------- insertEdge() -------------------------------------
+// Insert an edge into graph between two given nodes
+// Preconditions: None
+// Postconditions: None
+bool GraphM::insertEdge(int from, int to, int weight) {
+    // Cases where the insert would be invalid
+    if (from == to || weight < 0) { 
+        // If destination is the same or negative weight
+        return false;
+    }
+
+    if ((from > size || from < 1) || (to > size || to < 1)) {
+        // If attempting to use out of bound nodes
+        return false;
+    }
+
+    C[from][to] = weight;
+    return true;
+}
+
+//---------------------------- removeEdge() -------------------------------------
+// Remove an edge between two given nodes
+// Preconditions: None
+// Postconditions: None
+bool GraphM::removeEdge(int from, int to) {
+    if ((from > size || from < 1) || (to > size || to < 1)) {
+        // If attempting to use out of bound nodes
+        return false;
+    }
+
+    C[from][to] = INT_MAX;
+    return true;
 }
 
 int main() {
