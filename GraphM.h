@@ -5,26 +5,36 @@
 // --------------------------------------------------------------------------------------------------------------------
 // Purpose - This project is to implement Dijkstra's shortest path algorithm.
 // --------------------------------------------------------------------------------------------------------------------
-// Notes on specifications, special algorithms, and assumptions.
+// Assumption: the input data file has correctly formatted, valid data.
+//             max nodes = 100 / graph
 // --------------------------------------------------------------------------------------------------------------------
 
 #ifndef GRAPHM_H
 #define GRAPHM_H
 
 #include <iostream>
+#include <fstream>
 #include "nodedata.h"
 
 using namespace std;
 
+int const MAXNODES = 100;
+
 class GraphM {
 public:
-    GraphM(); // default constructor
+    // default constructor
+    GraphM(); 
 
-    buildGraph(); // builds up graph node information and adjacency matrix of edges between each
-                  // node reading from a data file.
-    insertEdge(int, int, int); // insert an edge into graph between 2 given nodes
-    removeEdge(int, int); // remove edge between 2 given nodes
-
+    // builds up graph node information and adjacency matrix of edges between each node reading from a data file.
+    void buildGraph(ifstream&); 
+    // insert an edge into graph between 2 given nodes
+    bool insertEdge(int, int, int);
+    // remove edge between 2 given nodes
+    bool removeEdge(int, int); 
+    // find the shortest path between every node to every other node
+    void findShortestPath(); 
+    // displays the distance and paths between nodes
+    void displayAll() const; 
 
 private:
     struct TableType {
