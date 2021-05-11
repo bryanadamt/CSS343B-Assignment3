@@ -15,6 +15,7 @@
 #include <climits>
 #include <iomanip>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -90,6 +91,48 @@ bool GraphM::removeEdge(int from, int to) {
 
     C[from][to] = INT_MAX;
     return true;
+}
+
+//---------------------------- findShortestPath() -------------------------------------
+// the shortest path between every node to every other node
+// Preconditions: None
+// Postconditions: None
+void GraphM::findShortestPath() {
+    for(int source = 1; source <= size; source++) {
+        T[source][source].visited = true;
+        T[source][source].dist = 0;
+        int v = 0;
+
+        for (int i = 1; i <= size; i++) {
+            if (!T[source][i].visited && C[source][i] < INT_MAX) {
+                // Finds the next shortest node from source
+                if (C[source][i] < C[source][v]) {
+                    v = i;
+                }
+                
+                T[source][i].visited = true;
+                T[source][i].dist = C[source][i];
+                T[source][i].path = source;
+            }
+        }
+
+        for (int w = 1; w <= size; w++) {
+            if (!T[v][w].visited) {
+                T[source][w].dist = min(T[source][w].dist, T[source][v].dist + C[v][w]);
+            }
+        }
+    }
+// for (int source = 1; source <= nodeSize; source++) {
+// T[source][source].dist = 0;
+// // finds the shortest distance from source to all other nodes
+// for (int i = 1; i<= nodeSize; i++) {
+// find v //not visited, shortest distance at this point
+// mark v visited
+// for each w adjacent to v
+// if (w is not visited)
+// T[source][w].dist=min(T[source][w].dist, T[source][v].dist+C[V][W])
+// }
+// }
 }
 
 int main() {
