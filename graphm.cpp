@@ -104,7 +104,7 @@ void GraphM::findShortestPath() {
         int v = 0;
 
         for (int i = 1; i <= size; i++) {
-            if (!T[source][i].visited && C[source][i] < INT_MAX) {
+            if (!T[source][i].visited && C[source][i] != INT_MAX) {
                 // Finds the next shortest node from source
                 if (C[source][i] < C[source][v]) {
                     v = i;
@@ -116,28 +116,44 @@ void GraphM::findShortestPath() {
             }
         }
 
-        for (int w = 1; w <= size; w++) {
-            if (!T[v][w].visited) {
-                T[source][w].dist = min(T[source][w].dist, T[source][v].dist + C[v][w]);
+        if (v != 0) { // If there is a next shortest node
+            for (int w = 1; w <= size; w++) {
+                if (!T[v][w].visited && C[v][w] != INT_MAX) {
+                    T[source][w].dist = min(T[source][w].dist, T[source][v].dist + C[v][w]);
+                    T[source][w].path = v;
+                }
             }
         }
     }
-// for (int source = 1; source <= nodeSize; source++) {
-// T[source][source].dist = 0;
-// // finds the shortest distance from source to all other nodes
-// for (int i = 1; i<= nodeSize; i++) {
-// find v //not visited, shortest distance at this point
-// mark v visited
-// for each w adjacent to v
-// if (w is not visited)
-// T[source][w].dist=min(T[source][w].dist, T[source][v].dist+C[V][W])
-// }
-// }
+}
+
+//---------------------------- displayAll() -------------------------------------
+// displays the distance and paths between nodes
+// Preconditions: None
+// Postconditions: None
+void GraphM::displayAll() const { 
+    cout << "Description         From node   To node   Dijkstra's     Path" << endl;
+    for (int i = 1; i <= size; i++) {
+        cout << data[i] << endl;
+        for (int j = 1; j <= size; j++) {
+            if (i == j) {
+                continue;
+            }
+            cout << "                        ";
+            cout << i << "         " << j << "         ";
+            if (T[i][j].dist != INT_MAX) {
+                cout << T[i][j].dist << "         ";
+                // cout path
+            }
+            cout << endl;
+        }
+    }
 }
 
 int main() {
-    ifstream infile1("data31.txt");
+    ifstream infile1("testdata.txt");
     GraphM G;
     G.buildGraph(infile1);
+    G.displayAll();
     return 0;
 }
