@@ -136,15 +136,19 @@ void GraphM::displayAll() const {
     for (int i = 1; i <= size; i++) {
         cout << data[i] << endl;
         for (int j = 1; j <= size; j++) {
-            if (i == j) {
+            if (i == j) { // Don't print out path to self
                 continue;
             }
             cout << "                        ";
-            cout << i << "         " << j << "         ";
+            cout << i << "           " << j << "         ";
+
             if (T[i][j].dist != INT_MAX) {
-                cout << T[i][j].dist << "         ";
+                cout << T[i][j].dist << "           ";
                 // cout path
+            } else {
+                cout << "----";
             }
+
             cout << endl;
         }
     }
@@ -154,6 +158,7 @@ int main() {
     ifstream infile1("testdata.txt");
     GraphM G;
     G.buildGraph(infile1);
+    G.findShortestPath();
     G.displayAll();
     return 0;
 }
