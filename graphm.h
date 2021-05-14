@@ -39,6 +39,7 @@ public:
 
     // displays the distance and paths between nodes
     void displayAll() const; 
+    void display(int, int) const;
 
 private:
     struct TableType {
@@ -51,6 +52,9 @@ private:
     int C[MAXNODES][MAXNODES]; // Cost array, the adjacency matrix
     int size; // number of nodes in the graph
     TableType T[MAXNODES][MAXNODES]; // stores visited, distance, path
+
+    // Helper for display
+    void displayHelper(int, int) const;
 };
 
 #endif

@@ -128,7 +128,7 @@ void GraphM::findShortestPath() {
 }
 
 //---------------------------- displayAll() -------------------------------------
-// displays the distance and paths between nodes
+// displays the distance and paths between All nodes
 // Preconditions: None
 // Postconditions: None
 void GraphM::displayAll() const { 
@@ -154,11 +154,33 @@ void GraphM::displayAll() const {
     }
 }
 
+//---------------------------- display() -------------------------------------
+// displays the distance and paths between a node to another node
+// Preconditions: None
+// Postconditions: None
+void GraphM::display(int from, int to) const {
+    cout << "  " << from << "         " << to;
+    cout << "        " << T[from][to].dist;
+    cout << "            ";
+    if (T[from][to].dist != INT_MAX) {
+        displayHelper(from, to);
+    }
+    cout << endl;
+} 
+
+void GraphM::displayHelper(int from, int to) const {
+    if (T[from][to].dist != INT_MAX) {
+        displayHelper(from, T[from][to].path);
+        cout << to << " ";
+    }
+}
+
 int main() {
     ifstream infile1("testdata.txt");
     GraphM G;
     G.buildGraph(infile1);
     G.findShortestPath();
     G.displayAll();
+    G.display(1,4);
     return 0;
 }
