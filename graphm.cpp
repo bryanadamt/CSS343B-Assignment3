@@ -39,17 +39,12 @@ void GraphM::buildGraph(ifstream& input) {
     while (input >> size) {
         for (int i = 0; i <= size; i++) {
             data[i].setData(input);
-            // cout << data[i] <<endl;
         }
 
         int from, to, weight;
         input >> from >> to >> weight;
         while (from != 0) {
             C[from][to] = weight;
-            // cout << from << " from, ";
-            // cout << to << " to, ";
-            // cout << weight << " weight" <<endl;
-
             input >> from >> to >> weight;
         }
     }
@@ -93,14 +88,12 @@ void GraphM::findShortestPath() {
         T[source][source].dist = 0;
         int v = 0;
 
+        // Finds node that is not visited, shortest distance at this point
         for (int i = 1; i <= size; i++) {
-            if (/*!T[source][i].visited && */ C[source][i] != INT_MAX) {
-                // Finds the next shortest node from source
+            if (!T[source][i].visited && C[source][i] != INT_MAX) {
                 if (C[source][i] < C[source][v]) {
                     v = i;
-                    cout << v << "ay" << endl;
                 }
-                
                 T[source][i].visited = true;
                 T[source][i].dist = C[source][i];
                 T[source][i].path = source;
@@ -108,13 +101,29 @@ void GraphM::findShortestPath() {
         }
 
         if (v != 0) { // If there is a next shortest node
-            for (int w = 1; w <= size; w++) {
-                if (!T[v][w].visited && C[v][w] != INT_MAX) {
-                    T[source][w].dist = min(T[source][w].dist, T[source][v].dist + C[v][w]);
-                    T[source][w].path = v;
+                cout << source << " source " <<  v << " ay" << endl;
+                for (int w = 1; w <= size; w++) {
+                    if (!T[v][w].visited && C[v][w] != INT_MAX) {
+                        cout << v << " v " <<  w << " w" << endl;
+                        cout << "min " << min(T[source][w].dist, T[source][v].dist + C[v][w]) <<endl;
+                        T[source][w].dist = min(T[source][w].dist, T[source][v].dist + C[v][w]);
+                        T[source][w].path = v;
+                    }
                 }
             }
+    }
+
+    for (int i = 0; i <= size; i++) {
+        for( int j = 0; j <= size; j++) {
+            if (T[i][j].visited) {
+                cout << T[i][j].dist << " " << T[i][j].path << " | ";
+            } else if (i == 0 || j == 0) {
+                cout <<  " " << max(i,j) << " | ";
+            } else {
+                cout <<  " --- | ";
+            }
         }
+        cout << endl;
     }
 }
 
