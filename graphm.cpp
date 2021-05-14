@@ -89,15 +89,16 @@ bool GraphM::removeEdge(int from, int to) {
 // the shortest path between every node to every other node
 void GraphM::findShortestPath() {
     for(int source = 1; source <= size; source++) {
-        T[source][source].visited = true;
+        // T[source][source].visited = true;
         T[source][source].dist = 0;
         int v = 0;
 
         for (int i = 1; i <= size; i++) {
-            if (!T[source][i].visited && C[source][i] != INT_MAX) {
+            if (/*!T[source][i].visited && */ C[source][i] != INT_MAX) {
                 // Finds the next shortest node from source
                 if (C[source][i] < C[source][v]) {
                     v = i;
+                    cout << v << "ay" << endl;
                 }
                 
                 T[source][i].visited = true;
@@ -151,7 +152,6 @@ void GraphM::display(int from, int to) const {
     displayPathHelper(from, to);
     cout << endl;
     displayAddressHelper(from, to);
-    cout << endl;
 } 
 
 //---------------------------- displayPathHelper() -------------------------------------
@@ -161,23 +161,24 @@ void GraphM::displayPathHelper(int from, int to) const {
         displayPathHelper(from, T[from][to].path);
         cout << to << " ";
     }
+    /////////////////////////////////// if not found
 }
 
 //---------------------------- displayAddressHelper() -------------------------------------
-// Recursively pritns the address from one node to another
+// Recursively prints the address from one node to another
 void GraphM::displayAddressHelper(int from, int to) const {
     if (T[from][to].dist != INT_MAX) {
         displayAddressHelper(from, T[from][to].path);
         cout << data[to] << endl;
     }
-}S
+}
 
 int main() {
     ifstream infile1("testdata.txt");
     GraphM G;
     G.buildGraph(infile1);
     G.findShortestPath();
-    G.displayAll();
-    G.display(1,4);
+    // G.displayAll();
+    // G.display(1,4);
     return 0;
 }

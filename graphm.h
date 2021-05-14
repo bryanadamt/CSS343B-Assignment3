@@ -54,7 +54,8 @@ private:
     TableType T[MAXNODES][MAXNODES]; // stores visited, distance, path
 
     // Helper for display
-    void displayHelper(int, int) const;
+    void displayPathHelper(int, int) const;
+    void displayAddressHelper(int, int) const;
 };
 
 #endif
