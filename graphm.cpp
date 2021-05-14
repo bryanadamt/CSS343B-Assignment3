@@ -21,8 +21,6 @@ using namespace std;
 
 //---------------------------- GraphM() -------------------------------------
 // Default Constructor
-// Preconditions: None
-// Postconditions: None
 GraphM::GraphM() : size(0){
     for (int i = 0; i < MAXNODES; i++) {
         for (int j = 0; j < MAXNODES; j++) {
@@ -37,8 +35,6 @@ GraphM::GraphM() : size(0){
 //---------------------------- buildGraph() -------------------------------------
 // Builds up graph node information and adjacency matrix of edges 
 // between each node reading from a data file.
-// Preconditions: None
-// Postconditions: None
 void GraphM::buildGraph(ifstream& input) {
     while (input >> size) {
         for (int i = 0; i <= size; i++) {
@@ -61,8 +57,6 @@ void GraphM::buildGraph(ifstream& input) {
 
 //---------------------------- insertEdge() -------------------------------------
 // Insert an edge into graph between two given nodes
-// Preconditions: None
-// Postconditions: None
 bool GraphM::insertEdge(int from, int to, int weight) {
     // Cases where the insert would be invalid
     if (from == to || weight < 0) { 
@@ -81,8 +75,6 @@ bool GraphM::insertEdge(int from, int to, int weight) {
 
 //---------------------------- removeEdge() -------------------------------------
 // Remove an edge between two given nodes
-// Preconditions: None
-// Postconditions: None
 bool GraphM::removeEdge(int from, int to) {
     if ((from > size || from < 1) || (to > size || to < 1)) {
         // If attempting to use out of bound nodes
@@ -95,8 +87,6 @@ bool GraphM::removeEdge(int from, int to) {
 
 //---------------------------- findShortestPath() -------------------------------------
 // the shortest path between every node to every other node
-// Preconditions: None
-// Postconditions: None
 void GraphM::findShortestPath() {
     for(int source = 1; source <= size; source++) {
         T[source][source].visited = true;
@@ -129,8 +119,6 @@ void GraphM::findShortestPath() {
 
 //---------------------------- displayAll() -------------------------------------
 // displays the distance and paths between All nodes
-// Preconditions: None
-// Postconditions: None
 void GraphM::displayAll() const { 
     cout << "Description         From node   To node   Dijkstra's     Path" << endl;
     for (int i = 1; i <= size; i++) {
@@ -156,24 +144,33 @@ void GraphM::displayAll() const {
 
 //---------------------------- display() -------------------------------------
 // displays the distance and paths between a node to another node
-// Preconditions: None
-// Postconditions: None
 void GraphM::display(int from, int to) const {
     cout << "  " << from << "         " << to;
     cout << "        " << T[from][to].dist;
     cout << "            ";
-    if (T[from][to].dist != INT_MAX) {
-        displayHelper(from, to);
-    }
+    displayPathHelper(from, to);
+    cout << endl;
+    displayAddressHelper(from, to);
     cout << endl;
 } 
 
-void GraphM::displayHelper(int from, int to) const {
+//---------------------------- displayPathHelper() -------------------------------------
+// Recursively prints the path from one node to another
+void GraphM::displayPathHelper(int from, int to) const {
     if (T[from][to].dist != INT_MAX) {
-        displayHelper(from, T[from][to].path);
+        displayPathHelper(from, T[from][to].path);
         cout << to << " ";
     }
 }
+
+//---------------------------- displayAddressHelper() -------------------------------------
+// Recursively pritns the address from one node to another
+void GraphM::displayAddressHelper(int from, int to) const {
+    if (T[from][to].dist != INT_MAX) {
+        displayAddressHelper(from, T[from][to].path);
+        cout << data[to] << endl;
+    }
+}S
 
 int main() {
     ifstream infile1("testdata.txt");
