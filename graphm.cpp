@@ -42,7 +42,7 @@ void GraphM::buildGraph(ifstream& input) {
     }
 
     int from, to, weight;
-    // The if statement is to check if there are available lines to read
+    // The if statement is to check if there is available lines to read
     if (input >> from >> to >> weight) {
         while (from != 0) {
             C[from][to] = weight;
@@ -155,6 +155,22 @@ void GraphM::displayAll() const {
         }
     }
     cout << endl;
+
+    for (int i = 0; i <= size; i++) {
+        for( int j = 0; j <= size; j++) {
+            if (T[i][j].visited) {
+                cout<< setw(2) << T[i][j].dist << setw(2) << T[i][j].path << " |";
+            } else if (i == 0 || j == 0) {
+                cout << setw(5) << max(i,j) << " |";
+            } else {
+                if (T[i][j].dist != INT_MAX) {
+                    cout << setw(2) << T[i][j].dist << setw(3) << T[i][j].path << "nv|";
+                }
+                else { cout << setw(7) <<  "--- |"; }
+            }
+        }
+        cout << endl;
+    }
 }
 
 //---------------------------- display() -------------------------------------
@@ -191,13 +207,3 @@ void GraphM::displayAddressHelper(int from, int to) const {
         cout << endl;
     }
 }
-
-// int main() {
-//     ifstream infile1("testdata.txt");
-//     GraphM G;
-//     G.buildGraph(infile1);
-//     G.findShortestPath();
-//     G.displayAll();
-//     G.display(1,4);
-//     return 0;
-// }
