@@ -33,8 +33,8 @@ GraphL::~GraphL() {
 // Builds up graph node information and adjacency list of edges between each
 // node reading from a data file.
 void GraphL::buildGraph(ifstream& input) {
-    string address; // = ""?
-    input >> size; // if size = 0?
+    string address;
+    input >> size;
     getline(input, address); // Throwaway line
 
     for (int i = 1; i <= size; i++) {
@@ -95,6 +95,8 @@ void GraphL::depthFirstSearch() {
     for (int i = 1; i <= size; i++) {
         if (!gNArray[i].visited) {
             dfsHelper(i);
+            cout << endl;
+            cout << "                       ";
         }
     }
     cout << endl;
@@ -114,14 +116,14 @@ void GraphL::dfsHelper(int source) {
 }
 
 int main() {
-    ifstream infile2("data32.txt");
+    ifstream infile2("data.txt");
     //for each graph, find the depth-first search ordering
 	for (;;) {
 		GraphL G;
 		G.buildGraph(infile2);
 	    if (infile2.eof())
 		break;
-		// G.displayGraph();
+		G.displayGraph();
 		G.depthFirstSearch();    // find and display depth-first ordering to cout
 	}
     return 0;
