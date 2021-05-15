@@ -11,10 +11,8 @@
 
 #include "graphm.h"
 
-#include <iostream>
 #include <climits>
 #include <iomanip>
-#include <fstream>
 #include <algorithm>
 
 using namespace std;
@@ -42,11 +40,11 @@ void GraphM::buildGraph(ifstream& input) {
     }
 
     int from, to, weight;
-    // The if statement is to check if there is available lines to read
-    if (input >> from >> to >> weight) {
-        while (from != 0) {
+    while (input >> from >> to >> weight) {
+        if (from != 0) {
             C[from][to] = weight;
-            input >> from >> to >> weight;
+        } else {
+            break;
         }
     }
 }

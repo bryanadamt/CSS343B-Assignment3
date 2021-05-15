@@ -17,19 +17,40 @@
 
 using namespace std;
 
+int const MAXNODES = 100;
+
 class GraphL {
     public:
+    // Constructor and Destructor
+    GraphL();
+    ~GraphL();
+
+    // Builds up graph node information and adjacency list of edges between each
+    // node reading from a data file.
+    void buildGraph(ifstream&);
+
+    // Displays each node information and edge in the graph
+    void displayGraph();
+
+    // Makes a depth-first search and displays each node in depth-first order
+    void depthFirstSearch();
 
     private:
+        int size;
         struct EdgeNode; // forward reference for the compiler
+
         struct GraphNode { // structs used for simplicity, use classes if desired
-        EdgeNode* edgeHead; // head of the list of edges
-        NodeData* data; // data information about each node
-        bool visited;
+            EdgeNode* edgeHead; // head of the list of edges
+            NodeData* data; // data information about each node
+            bool visited;
         };
+
+        GraphNode gNArray[MAXNODES];
+
         struct EdgeNode {
             int adjGraphNode; // subscript of the adjacent graph node
             EdgeNode* nextEdge;
         };
-}
+};
+
 #endif

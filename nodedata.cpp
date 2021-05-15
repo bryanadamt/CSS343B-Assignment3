@@ -45,7 +45,6 @@ bool NodeData::operator>=(const NodeData& rhs) const {
 
 //------------------------------ setData -------------------------------------
 // returns true if the data is set, false when bad data, i.e., is eof
-
 bool NodeData::setData(istream& infile) {
 	getline(infile, data);
 	return !infile.eof();       // eof function is true when eof char is read
