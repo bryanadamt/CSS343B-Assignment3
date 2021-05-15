@@ -42,10 +42,12 @@ void GraphM::buildGraph(ifstream& input) {
     }
 
     int from, to, weight;
-    input >> from >> to >> weight;
-    while (from != 0) {
-        C[from][to] = weight;
-        input >> from >> to >> weight;
+    // The if statement is to check if there are available lines to read
+    if (input >> from >> to >> weight) {
+        while (from != 0) {
+            C[from][to] = weight;
+            input >> from >> to >> weight;
+        }
     }
 }
 
