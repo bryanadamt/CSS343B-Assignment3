@@ -81,46 +81,58 @@ bool GraphM::removeEdge(int from, int to) {
 }
 
 //---------------------------- findShortestPath() -------------------------------------
-// the shortest path between every node to every other node
+// The shortest path between every node to every other node
+// Following the pseudocode given in the assignment file
 void GraphM::findShortestPath() {
-    for(int source = 1; source <= size; source++) {
-        // T[source][source].visited = true;
+
+    for (int source = 1; source <= size; source++) {
         T[source][source].dist = 0;
+        T[source][source].visited = true;
         int v = 0;
 
-        // Finds node that is not visited, shortest distance at this point
         for (int i = 1; i <= size; i++) {
-            if (!T[source][i].visited && C[source][i] != INT_MAX) {
-                if (C[source][i] < C[source][v]) {
-                    v = i;
-                }
-                T[source][i].visited = true;
+            if (C[source][i] != INT_MAX) {
                 T[source][i].dist = C[source][i];
                 T[source][i].path = source;
             }
         }
 
-        if (v != 0) { // If there is a next shortest node
-                cout << source << " source " <<  v << " ay" << endl;
+        do {
+            v = 0; //reset
+
+            for (int i = 1; i <= size; i++) {
+                if (!T[source][i].visited && (C[source][i] < C[source][v])) {
+                    v = i;
+                }
+            }
+
+            if (v != 0) {
+                T[source][v].visited = true;
+
                 for (int w = 1; w <= size; w++) {
-                    if (!T[v][w].visited && C[v][w] != INT_MAX) {
-                        cout << v << " v " <<  w << " w" << endl;
-                        cout << "min " << min(T[source][w].dist, T[source][v].dist + C[v][w]) <<endl;
-                        T[source][w].dist = min(T[source][w].dist, T[source][v].dist + C[v][w]);
-                        T[source][w].path = v;
+                    if (!T[source][w].visited && C[v][w] != INT_MAX && v != w) {
+                        if (T[source][w].dist > T[source][v].dist + C[v][w])
+                        {
+                            T[source][w].dist = T[source][v].dist + C[v][w];
+                            T[source][w].path = v;
+                        }
                     }
                 }
             }
+        } while (v != 0);
     }
 
     for (int i = 0; i <= size; i++) {
         for( int j = 0; j <= size; j++) {
             if (T[i][j].visited) {
-                cout << T[i][j].dist << " " << T[i][j].path << " | ";
+                cout<< setw(2) << T[i][j].dist << setw(2) << T[i][j].path << " |";
             } else if (i == 0 || j == 0) {
-                cout <<  " " << max(i,j) << " | ";
+                cout << setw(5) << max(i,j) << " |";
             } else {
-                cout <<  " --- | ";
+                if (T[i][j].dist != INT_MAX) {
+                    cout << setw(2) << T[i][j].dist << setw(3) << T[i][j].path << "nv|";
+                }
+                else { cout << setw(7) <<  "--- |"; }
             }
         }
         cout << endl;
