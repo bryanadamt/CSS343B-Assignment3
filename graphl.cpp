@@ -119,17 +119,3 @@ void GraphL::dfsHelper(int source) {
         traverse = traverse->nextEdge;
     }
 }
-
-int main() {
-    ifstream infile2("data.txt");
-    //for each graph, find the depth-first search ordering
-	for (;;) {
-		GraphL G;
-		G.buildGraph(infile2);
-	    if (infile2.eof())
-		break;
-		// G.displayGraph();
-		G.depthFirstSearch();    // find and display depth-first ordering to cout
-	}
-    return 0;
-}
