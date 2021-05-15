@@ -28,7 +28,7 @@ int main() {
 	}
 
 	//for each graph, find the shortest path from every node to all other nodes
-	for (;;){
+	for (;;) {
 		GraphM G;
 		G.buildGraph(infile1);
 		if (infile1.eof())
@@ -39,7 +39,6 @@ int main() {
 		G.display(1, 2);
 		G.display(1, 4);
 	}
-	
 	// // part 2 
 	// ifstream infile2("data32.txt");
 	// if (!infile2) {

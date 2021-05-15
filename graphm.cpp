@@ -36,17 +36,16 @@ GraphM::GraphM() : size(0){
 // Builds up graph node information and adjacency matrix of edges 
 // between each node reading from a data file.
 void GraphM::buildGraph(ifstream& input) {
-    while (input >> size) {
-        for (int i = 0; i <= size; i++) {
-            data[i].setData(input);
-        }
+    input >> size;
+    for (int i = 0; i <= size; i++) {
+        data[i].setData(input);
+    }
 
-        int from, to, weight;
+    int from, to, weight;
+    input >> from >> to >> weight;
+    while (from != 0) {
+        C[from][to] = weight;
         input >> from >> to >> weight;
-        while (from != 0) {
-            C[from][to] = weight;
-            input >> from >> to >> weight;
-        }
     }
 }
 
@@ -95,6 +94,7 @@ void GraphM::findShortestPath() {
         T[source][source].visited = true;
         int v = 0;
 
+        // Populate the source row in TableType
         for (int i = 1; i <= size; i++) {
             if (C[source][i] != INT_MAX) {
                 T[source][i].dist = C[source][i];
@@ -103,8 +103,9 @@ void GraphM::findShortestPath() {
         }
 
         do {
-            v = 0; // reset
+            v = 0; // Reset v
 
+            // Attempts to find v, a not visited node, shortest distance from source
             for (int i = 1; i <= size; i++) {
                 if (!T[source][i].visited && (C[source][i] < C[source][v])) {
                     v = i;
@@ -115,7 +116,7 @@ void GraphM::findShortestPath() {
                 T[source][v].visited = true;
 
                 for (int w = 1; w <= size; w++) {
-                    if (!T[source][w].visited && C[v][w] != INT_MAX && v != w) {
+                    if (!T[source][w].visited && C[v][w] != INT_MAX) {
                         if (T[source][w].dist > T[source][v].dist + C[v][w]) {
                             T[source][w].dist = T[source][v].dist + C[v][w];
                             T[source][w].path = v;
@@ -125,22 +126,6 @@ void GraphM::findShortestPath() {
             }
         } while (v != 0);
     }
-
-    for (int i = 0; i <= size; i++) {
-        for( int j = 0; j <= size; j++) {
-            if (T[i][j].visited) {
-                cout<< setw(2) << T[i][j].dist << setw(2) << T[i][j].path << " |";
-            } else if (i == 0 || j == 0) {
-                cout << setw(5) << max(i,j) << " |";
-            } else {
-                if (T[i][j].dist != INT_MAX) {
-                    cout << setw(2) << T[i][j].dist << setw(3) << T[i][j].path << "nv|";
-                }
-                else { cout << setw(7) <<  "--- |"; }
-            }
-        }
-        cout << endl;
-    }
 }
 
 //---------------------------- displayAll() -------------------------------------
@@ -149,8 +134,10 @@ void GraphM::displayAll() const {
     cout << "Description         From node   To node   Dijkstra's     Path" << endl;
     for (int i = 1; i <= size; i++) {
         cout << data[i] << endl;
+        cout << endl;
         for (int j = 1; j <= size; j++) {
-            if (i == j) { // Don't print out path to self
+            // Don't print out path to self
+            if (i == j) {
                 continue;
             }
             cout << "                        ";
@@ -162,21 +149,26 @@ void GraphM::displayAll() const {
             } else {
                 cout << "----";
             }
-
             cout << endl;
         }
     }
+    cout << endl;
 }
 
 //---------------------------- display() -------------------------------------
 // displays the distance and paths between a node to another node
 void GraphM::display(int from, int to) const {
-    cout << "  " << from << "         " << to;
-    cout << "        " << T[from][to].dist;
-    cout << "            ";
-    displayPathHelper(from, to);
+    cout << "      " << from << "        " << to;
+    if (T[from][to].dist != INT_MAX) {
+        cout << "        " << T[from][to].dist;
+        cout << "            ";
+        displayPathHelper(from, to);
+        cout << endl;
+        displayAddressHelper(from, to);
+    } else {
+        cout << "       ----" << endl;
+    }
     cout << endl;
-    displayAddressHelper(from, to);
 } 
 
 //---------------------------- displayPathHelper() -------------------------------------
@@ -194,15 +186,16 @@ void GraphM::displayAddressHelper(int from, int to) const {
     if (T[from][to].dist != INT_MAX) {
         displayAddressHelper(from, T[from][to].path);
         cout << data[to] << endl;
+        cout << endl;
     }
 }
 
-int main() {
-    ifstream infile1("testdata.txt");
-    GraphM G;
-    G.buildGraph(infile1);
-    G.findShortestPath();
-    G.displayAll();
-    G.display(1,4);
-    return 0;
-}
+// int main() {
+//     ifstream infile1("testdata.txt");
+//     GraphM G;
+//     G.buildGraph(infile1);
+//     G.findShortestPath();
+//     G.displayAll();
+//     G.display(1,4);
+//     return 0;
+// }
