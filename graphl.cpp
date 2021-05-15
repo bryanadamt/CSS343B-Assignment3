@@ -105,13 +105,18 @@ void GraphL::depthFirstSearch() {
 //---------------------------- dfsHelper() -------------------------------------
 // Recursively do dfs
 void GraphL::dfsHelper(int source) {
-    if (!gNArray[source].visited) {
-        gNArray[source].visited = true;
-        cout << source << " ";
-        int next = gNArray[source].edgeHead->adjGraphNode;
-        if (next != 0) {
-            dfsHelper(next);
+    if (source == 0) {
+        return;
+    }
+    gNArray[source].visited = true;
+    cout << source << " ";
+
+    EdgeNode* traverse = gNArray[source].edgeHead;
+    while (traverse != NULL) {
+        if (!gNArray[traverse->adjGraphNode].visited) {
+            dfsHelper(traverse->adjGraphNode);
         }
+        traverse = traverse->nextEdge;
     }
 }
 
@@ -123,7 +128,7 @@ int main() {
 		G.buildGraph(infile2);
 	    if (infile2.eof())
 		break;
-		G.displayGraph();
+		// G.displayGraph();
 		G.depthFirstSearch();    // find and display depth-first ordering to cout
 	}
     return 0;

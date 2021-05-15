@@ -9,19 +9,19 @@ Library
 Bookstore
 Floor 0, South stairs
 Floor 1, South stairs
-Floor 2, South stairs
-Floor 3, South stairs
-Knuckle stairs, Floor 0, south end
-Knuckle stairs, Floor 0, north end
-Knuckle stairs landing between floor 0/1
-Knuckle stairs, Floor 1, south end
-Knuckle stairs, Floor 1, north end
-Knuckle stairs landing between floor 1/2
-Knuckle stairs, Floor 2, south end
-Knuckle stairs, Floor 2, north end
-Knuckle stairs landing between floor 2/3
-Knuckle stairs, Floor 3, south end
-Knuckle stairs, Floor 3, north end
+Min Chen's office
+CSS office
+UW1-051 classroom
+CUSP Office
+UW1 pool table
+UW2 coffee
+Library
+Bookstore
+Floor 0, South stairs
+Floor 1, South stairs
+Bookstore
+Floor 0, South stairs
+Floor 1, South stairs
 1  12
 1  22
 2  23
@@ -86,4 +86,4 @@ Knuckle stairs, Floor 3, north end
 23  2
 23 21
 23 22
-0 0
+0 0 0
