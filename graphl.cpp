@@ -33,10 +33,12 @@ GraphL::~GraphL() {
 // Builds up graph node information and adjacency list of edges between each
 // node reading from a data file.
 void GraphL::buildGraph(ifstream& input) {
+    string address; // = ""?
     input >> size; // if size = 0?
+    getline(input, address); // Throwaway line
+
     for (int i = 1; i <= size; i++) {
-        string address; // = ""?
-        input >> address;
+        getline(input, address);
 
         NodeData* newND = new NodeData(address);
         gNArray[i].data = newND;
@@ -70,20 +72,33 @@ void GraphL::buildGraph(ifstream& input) {
 //---------------------------- displayGraph() -------------------------------------
 // Displays each node information and edge in the graph
 void GraphL::displayGraph() {
-    
+    cout << "Graph:" << endl;
+    for (int i = 1; i <= size; i++) {
+        cout << "Node" << i << "         " << *gNArray[i].data << endl;
+        cout << endl;
+
+        EdgeNode* traverse = gNArray[i].edgeHead;
+        while (traverse != NULL) {
+            if (traverse->adjGraphNode != 0 ) {
+                cout << "  edge  " << i << "  " << traverse->adjGraphNode << endl;
+            }
+            traverse = traverse->nextEdge;
+        }
+        cout << endl;
+    }
 } 
 
 
 int main() {
     ifstream infile2("data32.txt");
     //for each graph, find the depth-first search ordering
-	for (;;) {
+	//for (;;) {
 		GraphL G;
 		G.buildGraph(infile2);
-		if (infile2.eof())
-			break;
+		// if (infile2.eof())
+		// 	break;
 		G.displayGraph();
-		G.depthFirstSearch();    // find and display depth-first ordering to cout
-	}
+		// G.depthFirstSearch();    // find and display depth-first ordering to cout
+	//}
     return 0;
 }
