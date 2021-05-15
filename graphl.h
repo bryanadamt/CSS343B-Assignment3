@@ -17,7 +17,7 @@
 
 using namespace std;
 
-int const MAXNODES = 100;
+int const MAXNODESL = 100;
 
 class GraphL {
     public:
@@ -45,7 +45,7 @@ class GraphL {
             bool visited;
         };
 
-        GraphNode gNArray[MAXNODES];
+        GraphNode gNArray[MAXNODESL];
 
         struct EdgeNode {
             int adjGraphNode; // subscript of the adjacent graph node

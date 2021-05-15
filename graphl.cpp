@@ -16,7 +16,7 @@
 //---------------------------- GraphL() -------------------------------------
 // Default Constructor
 GraphL::GraphL() : size(0) {
-    for (int i = 1; i < MAXNODES; i++) {
+    for (int i = 1; i < MAXNODESL; i++) {
         gNArray[i].edgeHead = NULL;
         gNArray[i].data = NULL;
         gNArray[i].visited = false;
@@ -26,7 +26,19 @@ GraphL::GraphL() : size(0) {
 //---------------------------- ~GraphL() -------------------------------------
 // Destructor
 GraphL::~GraphL() {
-    //ok
+    for (int i = 1; i <= size; i++) {
+        
+        EdgeNode* toDelete = gNArray[i].edgeHead;
+        delete gNArray[i].data;
+        gNArray[i].data = NULL;
+
+        while (toDelete != NULL) {  
+            gNArray[i].edgeHead = gNArray[i].edgeHead->nextEdge;
+            delete toDelete;
+            toDelete = NULL;
+            toDelete = gNArray[i].edgeHead;
+        }
+    }
 }
 
 //---------------------------- buildGraph() -------------------------------------
