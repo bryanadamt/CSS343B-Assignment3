@@ -30,7 +30,7 @@ class GraphL {
     void buildGraph(ifstream&);
 
     // Displays each node information and edge in the graph
-    void displayGraph();
+    void displayGraph() const;
 
     // Makes a depth-first search and displays each node in depth-first order
     void depthFirstSearch();
@@ -51,6 +51,9 @@ class GraphL {
             int adjGraphNode; // subscript of the adjacent graph node
             EdgeNode* nextEdge;
         };
+
+        // Helper functions
+        void dfsHelper(int);
 };
 
 #endif
