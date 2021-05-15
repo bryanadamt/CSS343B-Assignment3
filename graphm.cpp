@@ -53,30 +53,36 @@ void GraphM::buildGraph(ifstream& input) {
 //---------------------------- insertEdge() -------------------------------------
 // Insert an edge into graph between two given nodes
 bool GraphM::insertEdge(int from, int to, int weight) {
-    // Cases where the insert would be invalid
-    if (from == to || weight < 0) { 
-        // If destination is the same or negative weight
+    // If attempt to insert an edge to self or negative weight
+    if (from == to || weight < 0) {
         return false;
     }
 
-    if ((from > size || from < 1) || (to > size || to < 1)) {
-        // If attempting to use out of bound nodes
+    // If attempting to use out of bound nodes
+    if (from < 1 || to < 1 || from > size || to > size) {
         return false;
     }
 
     C[from][to] = weight;
+    findShortestPath();
     return true;
 }
 
 //---------------------------- removeEdge() -------------------------------------
 // Remove an edge between two given nodes
 bool GraphM::removeEdge(int from, int to) {
-    if ((from > size || from < 1) || (to > size || to < 1)) {
-        // If attempting to use out of bound nodes
+    // If there is no edge to remove
+    if (C[from][to] == INT_MAX) {
+        return false;
+    }
+
+    // If attempting to use out of bound nodes
+    if (from < 1 || to < 1 || from > size || to > size) {
         return false;
     }
 
     C[from][to] = INT_MAX;
+    findShortestPath();
     return true;
 }
 
@@ -84,7 +90,6 @@ bool GraphM::removeEdge(int from, int to) {
 // The shortest path between every node to every other node
 // Following the pseudocode given in the assignment file
 void GraphM::findShortestPath() {
-
     for (int source = 1; source <= size; source++) {
         T[source][source].dist = 0;
         T[source][source].visited = true;
@@ -98,7 +103,7 @@ void GraphM::findShortestPath() {
         }
 
         do {
-            v = 0; //reset
+            v = 0; // reset
 
             for (int i = 1; i <= size; i++) {
                 if (!T[source][i].visited && (C[source][i] < C[source][v])) {
@@ -111,8 +116,7 @@ void GraphM::findShortestPath() {
 
                 for (int w = 1; w <= size; w++) {
                     if (!T[source][w].visited && C[v][w] != INT_MAX && v != w) {
-                        if (T[source][w].dist > T[source][v].dist + C[v][w])
-                        {
+                        if (T[source][w].dist > T[source][v].dist + C[v][w]) {
                             T[source][w].dist = T[source][v].dist + C[v][w];
                             T[source][w].path = v;
                         }
@@ -154,7 +158,7 @@ void GraphM::displayAll() const {
 
             if (T[i][j].dist != INT_MAX) {
                 cout << T[i][j].dist << "           ";
-                // cout path
+                displayPathHelper(i, j);
             } else {
                 cout << "----";
             }
@@ -182,7 +186,6 @@ void GraphM::displayPathHelper(int from, int to) const {
         displayPathHelper(from, T[from][to].path);
         cout << to << " ";
     }
-    /////////////////////////////////// if not found
 }
 
 //---------------------------- displayAddressHelper() -------------------------------------
@@ -199,7 +202,7 @@ int main() {
     GraphM G;
     G.buildGraph(infile1);
     G.findShortestPath();
-    // G.displayAll();
-    // G.display(1,4);
+    G.displayAll();
+    G.display(1,4);
     return 0;
 }
