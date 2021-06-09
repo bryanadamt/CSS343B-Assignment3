@@ -153,6 +153,22 @@ void GraphM::displayAll() const {
         }
     }
     cout << endl;
+
+    for (int i = 0; i <= size; i++) {
+        for( int j = 0; j <= size; j++) {
+            if (T[i][j].visited) {
+                cout << T[i][j].dist << " " << T[i][j].path << "|";
+            } else if (i == 0 || j == 0) {
+                cout << setw (5) << max(i,j) << "|";
+            } else {
+                if (T[i][j].dist != INT_MAX) {
+                    cout << T[i][j].dist << " " <<  T[i][j].path << "n|";
+                }
+                else { cout << " |"; }
+            }
+        }
+        cout << endl;
+    }
 }
 
 //---------------------------- display() -------------------------------------
